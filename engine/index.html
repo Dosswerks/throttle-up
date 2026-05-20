@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Throttle Up</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="game-container">
+  <!-- Upper region: Runway canvas + plane animation -->
+  <div id="runway-region">
+    <canvas id="runway-canvas"></canvas>
+    <div id="speed-meter" role="progressbar" aria-label="Speed progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="speed-fill" style="width:0%"></div>
+      <span id="speed-label">0%</span>
+    </div>
+    <div id="toolbar">
+      <button id="btn-mute" aria-label="Mute audio" title="Mute">&#x1F50A;</button>
+      <button id="btn-help" aria-label="Help" title="Help">?</button>
+      <button id="btn-pause" aria-label="Pause" title="Pause">&#x23F8;</button>
+    </div>
+    <div id="feedback-caption" class="hidden" aria-live="polite"></div>
+  </div>
+
+  <!-- Lower region: Sequence slots + draggable steps -->
+  <div id="ui-region">
+    <div id="hud" aria-live="polite">
+      <span class="hud-item hud-stack"><span class="hud-label">Speed</span><span id="hud-speed">0%</span></span>
+      <span class="hud-item" id="hud-feedback"></span>
+      <span class="hud-item hud-stack"><span class="hud-label">Placed</span><span id="hud-placed">0 / 0</span></span>
+    </div>
+
+    <div id="sequence-area">
+      <p id="sequence-instruction">Drag steps into the correct order to accelerate</p>
+      <div id="sequence-slots" role="list" aria-label="Sequence slots"></div>
+    </div>
+
+    <div id="steps-area">
+      <p id="steps-label">Available Steps</p>
+      <div id="step-cards" role="list" aria-label="Available steps to drag"></div>
+    </div>
+  </div>
+
+  <!-- Overlays -->
+  <div id="start-screen" class="overlay">
+    <img id="start-logo" class="hidden" src="" alt="Throttle Up Logo">
+    <h1 id="start-title" class="hidden">THROTTLE UP</h1>
+    <p class="subtitle" id="start-subtitle"></p>
+    <p class="instructions" id="start-instructions">Put the steps in the correct order to reach takeoff speed!</p>
+    <input type="text" id="name-input" class="hidden" placeholder="Enter your name" aria-label="Player name">
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btn-start">Start</button>
+    </div>
+    <p class="disclosure" id="start-disclosure">Results are stored locally in your browser.</p>
+  </div>
+
+  <div id="pause-screen" class="overlay hidden">
+    <h1>PAUSED</h1>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btn-unpause">Resume</button>
+    </div>
+  </div>
+
+  <div id="help-screen" class="overlay hidden">
+    <h2>How to Play</h2>
+    <p>Drag the step cards into the sequence slots in the correct order.</p>
+    <p>Each correct placement accelerates the plane. Incorrect placements slow it down.</p>
+    <p>Once all steps are correct and you reach takeoff speed, the plane lifts off!</p>
+    <p>Use arrow keys and Enter for keyboard reordering.</p>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btn-close-help">Got It</button>
+    </div>
+  </div>
+
+  <div id="complete-screen" class="overlay hidden">
+    <h1 id="complete-title">AIRBORNE!</h1>
+    <div class="score-display" id="final-score">0</div>
+    <div class="stats" id="final-stats"></div>
+    <div class="btn-group" id="complete-buttons">
+      <button class="btn btn-primary" id="btn-replay">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game Engine Modules -->
+<script src="js/event-emitter.js?v=1"></script>
+<script src="js/config-manager.js?v=1"></script>
+<script src="js/sequence-loader.js?v=1"></script>
+<script src="js/game-state-machine.js?v=1"></script>
+<script src="js/game-logic.js?v=1"></script>
+<script src="js/persistence-manager.js?v=1"></script>
+<script src="js/audio-manager.js?v=2"></script>
+<script src="js/animation-manager.js?v=2"></script>
+<script src="js/accessibility-manager.js?v=1"></script>
+<script src="js/renderer.js?v=1"></script>
+<script src="js/drag-manager.js?v=1"></script>
+<script src="js/input-manager.js?v=1"></script>
+<script src="js/main.js?v=1"></script>
+
+</body>
+</html>
