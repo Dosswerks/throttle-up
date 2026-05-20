@@ -62,6 +62,9 @@ class AudioManager {
     try {
       const audio = new Audio(src);
       audio.preload = 'auto';
+      // iOS requires playsinline attribute for inline playback
+      audio.setAttribute('playsinline', '');
+      audio.setAttribute('webkit-playsinline', '');
       return audio;
     } catch (e) {
       console.warn('AudioManager: Could not create audio for', src);
@@ -77,12 +80,15 @@ class AudioManager {
 
     // Start MP3 loop if available
     if (this._engineLoop) {
+      this._engineLoop.currentTime = 0;
       this._engineLoop.play().catch(() => {});
     }
 
     // Start procedural rumble
     if (this._ctx && !this._rumbleOsc) {
-      this._ctx.resume();
+      if (this._ctx.state === 'suspended') {
+        this._ctx.resume().catch(() => {});
+      }
 
       // Main low-frequency oscillator
       this._rumbleOsc = this._ctx.createOscillator();
@@ -263,12 +269,35 @@ class AudioManager {
   }
 
   /**
-   * Resume audio context (needed after user gesture on mobile).
+   * Resume/unlock audio context and HTML5 Audio elements.
+   * MUST be called from a user-gesture event handler (tap/click) on iOS.
+   * iOS Safari requires both AudioContext.resume() AND a play() call on
+   * each Audio element during a user gesture to "unlock" them.
    */
   resume() {
-    if (this._engineLoop && !this._muted) {
-      this._engineLoop.play().catch(() => {});
+    // Resume Web Audio context (required on iOS)
+    if (this._ctx && this._ctx.state === 'suspended') {
+      this._ctx.resume().catch(() => {});
     }
+
+    // Unlock each HTML5 Audio element by playing then immediately pausing.
+    // iOS requires at least one play() call during a user gesture before
+    // programmatic playback is allowed later.
+    const elements = [
+      this._correctSound,
+      this._incorrectSound,
+      this._takeoffSound,
+      this._celebrationSound,
+      this._engineLoop
+    ];
+    elements.forEach(audio => {
+      if (audio) {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }).catch(() => {});
+      }
+    });
   }
 }
 
