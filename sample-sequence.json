@@ -1,0 +1,37 @@
+{
+  "game_id": "sample-sequence",
+  "version": "1.0.0",
+  "config": {
+    "title": "THROTTLE UP",
+    "subtitle": "Pre-Flight Departure Sequence",
+    "logo": "assets/images/logo.png",
+    "primaryColor": "#1e3a5f",
+    "accentColor": "#e8873d",
+    "backgroundColor": "#0a0a1a",
+    "speedIncrement": 14,
+    "speedDecrement": 7,
+    "takeoffThreshold": 100,
+    "showExplanations": true,
+    "audioEnabled": true,
+    "requirePlayerName": false
+  },
+  "sequences": [
+    {
+      "id": "pre-flight-departure",
+      "title": "Pre-Flight Departure Sequence",
+      "category": "Flight Operations",
+      "steps": [
+        { "id": "step_1", "text": "Receive flight plan and weather briefing from dispatch", "order": 1, "hint": "Preparation begins before you reach the aircraft" },
+        { "id": "step_2", "text": "Conduct external walk-around inspection of the aircraft", "order": 2, "hint": "Eyes on the airframe before anything else" },
+        { "id": "step_3", "text": "Complete cockpit preflight checks and power-up avionics", "order": 3, "hint": "Inside the flight deck now" },
+        { "id": "step_4", "text": "Coordinate with ground crew for passenger boarding", "order": 4, "hint": "Passengers need to be on board before you can leave" },
+        { "id": "step_5", "text": "Receive final passenger count and confirm weight & balance", "order": 5, "hint": "The numbers must add up for a safe departure" },
+        { "id": "step_6", "text": "Request pushback clearance from ground control", "order": 6, "hint": "You can't move without permission" },
+        { "id": "step_7", "text": "Start engines and complete after-start checklist", "order": 7, "hint": "Engines come alive after pushback" },
+        { "id": "step_8", "text": "Taxi to assigned runway via cleared route", "order": 8, "hint": "Follow the yellow brick road" },
+        { "id": "step_9", "text": "Complete before-takeoff checklist and arm flight systems", "order": 9, "hint": "Final checks at the hold-short line" },
+        { "id": "step_10", "text": "Receive takeoff clearance and advance throttles", "order": 10, "hint": "Cleared for takeoff — throttle up!" }
+      ]
+    }
+  ]
+}
