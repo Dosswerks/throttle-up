@@ -280,9 +280,9 @@ class AudioManager {
       this._ctx.resume().catch(() => {});
     }
 
-    // Unlock each HTML5 Audio element by playing then immediately pausing.
-    // iOS requires at least one play() call during a user gesture before
-    // programmatic playback is allowed later.
+    // Unlock each HTML5 Audio element by playing at zero volume then
+    // immediately pausing. iOS requires at least one play() call during
+    // a user gesture, but we mute them so nothing is audible.
     const elements = [
       this._correctSound,
       this._incorrectSound,
@@ -292,10 +292,15 @@ class AudioManager {
     ];
     elements.forEach(audio => {
       if (audio) {
+        const originalVolume = audio.volume;
+        audio.volume = 0;
         audio.play().then(() => {
           audio.pause();
           audio.currentTime = 0;
-        }).catch(() => {});
+          audio.volume = originalVolume;
+        }).catch(() => {
+          audio.volume = originalVolume;
+        });
       }
     });
   }
